@@ -1,0 +1,35 @@
+---
+version: "3.8"
+
+services:
+  proxy:
+    image: "docker.io/workspacedockermc/el9-java17-velocity:latest"
+    container_name: "proxy"
+    environment:
+      - MEMORYSIZE=2G
+    stdin_open: true
+    tty: true
+    network_mode: "host"
+    restart: unless-stopped
+    volumes:
+      - "/home/minecraft/server/proxy:/proxy:rw,z"
+    deploy:
+      resources:
+        limits:
+          memory: "4G"
+
+  main:
+    image: "docker.io/workspacedockermc/ubi9-graalvm17-dionysus-1.12.2:latest"
+    container_name: "main"
+    environment:
+      - MEMORYSIZE=2G
+    stdin_open: true
+    tty: true
+    network_mode: "host"
+    restart: unless-stopped
+    volumes:
+      - "/home/minecraft/server/main:/server:rw,z"
+    deploy:
+      resources:
+        limits:
+          memory: "4G"
